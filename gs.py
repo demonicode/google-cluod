@@ -52,23 +52,13 @@ def eval_loss(preds, dtrain):
     return 'mae', mean_absolute_error(np.exp(preds), np.exp(labels))
 import xgboost as xgb
 from sklearn.metrics import mean_absolute_error
+
 d_train_full = xgb.DMatrix(train_data, label=target)
-d_test = xgb.DMatrix(test_data)
-def modelfit(alg,train_data,target,useTrainCV=True, cv_folds=5, early_stopping_rounds=50):
-    
-    if useTrainCV:
-        xgb_param = alg.get_xgb_params()
-        xgtrain = xgb.DMatrix(train_data, label=target)
-        cvresult = xgb.cv(xgb_param, xgtrain, num_boost_round=alg.get_params()['n_estimators'], nfold=cv_folds,
-            feval=eval_loss, early_stopping_rounds=early_stopping_rounds)
-        alg.set_params(n_estimators=cvresult.shape[0])
-    
-    #Fit the algorithm on the data
-    alg.fit(train_data, target,eval_metric=eval_loss)
+#d_test = xgb.DMatrix(test_data)
 
 xgb1 = xgb.XGBClassifier(
  learning_rate =0.1,
- n_estimators=1000,
+ n_estimators=3000,
  max_depth=5,
  min_child_weight=1,
  gamma=0,
@@ -79,16 +69,14 @@ xgb1 = xgb.XGBClassifier(
  scale_pos_weight=1,
  seed=27)
 
-modelfit(xgb1, train_data[:100], target[:100])
-
-clf = xgb1.fit(train_data[:100],target[:100])
+clf = xgb1.fit(train_data[:],target[:])
 
 from sklearn.grid_search import GridSearchCV
 
 param_test1 = {
- 'max_depth':[10,11,12,13,14,15],
+ 'max_depth':[10,12,14],
  'min_child_weight':[1,3,5,8,10]
 }
-gsearch1 = GridSearchCV(estimator = xgb1, param_grid = param_test1, scoring='neg_mean_absolute_error',n_jobs=1,iid=False, cv=5)
+gsearch1 = GridSearchCV(estimator = xgb1, param_grid = param_test1, scoring='neg_mean_absolute_error',n_jobs=-1,iid=False, cv=5)
 gsearch1.fit(train_data[:],target[:])
 gsearch1.grid_scores_, gsearch1.best_params_, gsearch1.best_score_
