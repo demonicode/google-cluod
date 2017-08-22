@@ -15,25 +15,25 @@ zip_ref.close()
 train_data = pandas.read_csv("train.csv")
 
 import copy
-test_data = copy.deepcopy(train_data.iloc[150000:])
-train_data = train_data.iloc[:150000]
+#test_data = copy.deepcopy(train_data.iloc[150000:])
+train_data = train_data.iloc[:50000]
 
 y_true = test_data['loss']
 
-ids = test_data['id']
+#ids = test_data['id']
 
 target = train_data['loss']
 
 #drop the unnecessary column id and loss from both train and test set.
 train_data.drop(['id','loss'],1,inplace=True)
-test_data.drop(['id','loss'],1,inplace=True)
+#test_data.drop(['id','loss'],1,inplace=True)
 
 shift = 200
 target = np.log(target+shift)
 
 #merging both the datasets to make single joined dataset
-joined = pandas.concat([train_data, test_data],ignore_index = True)
-del train_data,test_data                                         #deleting previous one to save memory.
+joined = pandas.concat([train_data],ignore_index = True)
+del train_data                                       #deleting previous one to save memory.
 
 cat_feature = [n for n in joined.columns if n.startswith('cat')]  #list of all the features containing categorical values
 
@@ -44,8 +44,8 @@ for column in cat_feature:
 del cat_feature
 
 #dividing the training data between training and testing set
-train_data = joined.iloc[:150000,:]
-test_data = joined.iloc[150000:,:]
+train_data = joined.iloc[:10000,:]
+#test_data = joined.iloc[150000:,:]
 
 def eval_loss(preds, dtrain):
     labels = dtrain.get_label()
