@@ -77,6 +77,8 @@ param_test1 = {
  'max_depth':[10,12,14],
  'min_child_weight':[1,3,5,8,10]
 }
-gsearch1 = GridSearchCV(estimator = xgb1, param_grid = param_test1, scoring='neg_mean_absolute_error',n_jobs=-1,iid=False, cv=5)
+gsearch1 = GridSearchCV(estimator = xgb1, param_grid = param_test1, scoring='neg_mean_absolute_error',n_jobs=8, cv=5,verbose=2)
 gsearch1.fit(train_data[:],target[:])
-gsearch1.grid_scores_, gsearch1.best_params_, gsearch1.best_score_
+print (gsearch1.grid_scores_)
+print (gsearch1.best_params_)
+print (gsearch1.best_score_)
