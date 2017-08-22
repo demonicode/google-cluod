@@ -44,7 +44,7 @@ for column in cat_feature:
 del cat_feature
 
 #dividing the training data between training and testing set
-train_data = joined.iloc[:10000,:]
+train_data = joined.iloc[:50000,:]
 #test_data = joined.iloc[150000:,:]
 
 def eval_loss(preds, dtrain):
