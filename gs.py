@@ -18,7 +18,7 @@ import copy
 #test_data = copy.deepcopy(train_data.iloc[150000:])
 train_data = train_data.iloc[:50000]
 
-y_true = test_data['loss']
+#y_true = test_data['loss']
 
 #ids = test_data['id']
 
