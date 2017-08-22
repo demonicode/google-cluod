@@ -16,7 +16,7 @@ train_data = pandas.read_csv("train.csv")
 
 import copy
 #test_data = copy.deepcopy(train_data.iloc[150000:])
-train_data = train_data.iloc[:50000]
+train_data = train_data.iloc[:10000]
 
 #y_true = test_data['loss']
 
@@ -44,7 +44,7 @@ for column in cat_feature:
 del cat_feature
 
 #dividing the training data between training and testing set
-train_data = joined.iloc[:50000,:]
+train_data = joined.iloc[:10000,:]
 #test_data = joined.iloc[150000:,:]
 
 
