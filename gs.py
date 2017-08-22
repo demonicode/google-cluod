@@ -47,13 +47,11 @@ del cat_feature
 train_data = joined.iloc[:50000,:]
 #test_data = joined.iloc[150000:,:]
 
-def eval_loss(preds, dtrain):
-    labels = dtrain.get_label()
-    return 'mae', mean_absolute_error(np.exp(preds), np.exp(labels))
+
 import xgboost as xgb
 from sklearn.metrics import mean_absolute_error
 
-d_train_full = xgb.DMatrix(train_data, label=target)
+#d_train_full = xgb.DMatrix(train_data, label=target)
 #d_test = xgb.DMatrix(test_data)
 
 xgb1 = xgb.XGBClassifier(
@@ -78,7 +76,7 @@ param_test1 = {
  'min_child_weight':[1,3,5,8,10]
 }
 gsearch1 = GridSearchCV(estimator = xgb1, param_grid = param_test1, scoring='neg_mean_absolute_error',n_jobs=8, cv=5,verbose=2)
-gsearch1.fit(train_data[:],target[:])
+gsearch1.fit(train_data,target)
 print (gsearch1.grid_scores_)
 print (gsearch1.best_params_)
 print (gsearch1.best_score_)
