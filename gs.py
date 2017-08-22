@@ -65,7 +65,7 @@ xgb1 = xgb.XGBClassifier(
  subsample=0.8,
  colsample_bytree=0.8,
  objective= 'reg:linear',
- nthread=4,
+ nthread=1,
  scale_pos_weight=1,
  seed=27)
 
