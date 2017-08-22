@@ -59,17 +59,17 @@ d_train_full = xgb.DMatrix(train_data, label=target)
 xgb1 = xgb.XGBClassifier(
  learning_rate =0.1,
  n_estimators=3000,
- max_depth=5,
+ max_depth=10,
  min_child_weight=1,
  gamma=0,
  subsample=0.8,
  colsample_bytree=0.8,
  objective= 'reg:linear',
- nthread=1,
+ nthread=4,
  scale_pos_weight=1,
  seed=27)
 
-clf = xgb1.fit(train_data[:],target[:])
+#clf = xgb1.fit(train_data[:],target[:])
 
 from sklearn.grid_search import GridSearchCV
 
@@ -77,7 +77,7 @@ param_test1 = {
  'max_depth':[10,12,14],
  'min_child_weight':[1,3,5,8,10]
 }
-gsearch1 = GridSearchCV(estimator = xgb1, param_grid = param_test1, scoring='neg_mean_absolute_error',n_jobs=-1, cv=5,verbose=2)
+gsearch1 = GridSearchCV(estimator = xgb1, param_grid = param_test1, scoring='neg_mean_absolute_error',n_jobs=8, cv=5,verbose=2)
 gsearch1.fit(train_data[:],target[:])
 print (gsearch1.grid_scores_)
 print (gsearch1.best_params_)
